@@ -31,22 +31,26 @@ export default function Home() {
 
   return (
     <main className="main-container">
-      <h1 className="main-heading">Xem điểm LMS ICTU</h1>
+      <h1 className="main-heading">"Game over man, game over!"</h1>
 
       {<HeaderInput onHeadersProcessed={handleHeadersProcessed} />}
 
-      <ClassSelector
-        headers={headers}
-        studentId={studentId}
-        classId={classId}
-        onClassSelected={handleClassSelected}
-      />
+      {headers && Object.keys(headers).length > 0 && studentId && (
+        <>
+          <ClassSelector
+            headers={headers}
+            studentId={studentId}
+            classId={classId}
+            onClassSelected={handleClassSelected}
+          />
 
-      <TestResultsDisplay
-        headers={headers}
-        classId={classId}
-        className={className}
-      />
+          <TestResultsDisplay
+            headers={headers}
+            classId={classId}
+            className={className}
+          />
+        </>
+      )}
     </main>
   );
 }

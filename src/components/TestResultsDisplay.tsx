@@ -33,6 +33,8 @@ export default function TestResultsDisplay({
 }: TestResultsDisplayProps) {
   const [selectedWeek, setSelectedWeek] = useState<number | null>(null);
   const [expandedTestId, setExpandedTestId] = useState<number | null>(null);
+  const [copiedTestId, setCopiedTestId] = useState<number | null>(null);
+  const [clickedTests, setClickedTests] = useState<Set<number>>(new Set());
 
   const {
     data: coursePlan,
@@ -85,10 +87,23 @@ export default function TestResultsDisplay({
   });
 
   const handleTestClick = (testId: number) => {
+    // Đánh dấu test đã được click
+    setClickedTests(prev => new Set(prev).add(testId));
+    
     if (expandedTestId === testId) {
       setExpandedTestId(null);
     } else {
       setExpandedTestId(testId);
+    }
+  };
+
+  const handleCopyJson = async (testId: number, data: TestDetailData) => {
+    try {
+      await navigator.clipboard.writeText(JSON.stringify(data, null, 2));
+      setCopiedTestId(testId);
+      setTimeout(() => setCopiedTestId(null), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
     }
   };
 
@@ -144,7 +159,7 @@ export default function TestResultsDisplay({
           {testResults.map((test) => (
             <Accordion
               key={test.id}
-              className="test-accordion"
+              className={`test-accordion ${clickedTests.has(test.id) ? 'test-clicked' : ''}`}
               expanded={expandedTestId === test.id}
               onChange={() => handleTestClick(test.id)}>
               <AccordionSummary
@@ -168,9 +183,33 @@ export default function TestResultsDisplay({
                 ) : (
                   expandedTestId === test.id &&
                   detailedTest && (
-                    <pre className="json-display">
-                      {JSON.stringify(detailedTest, null, 2)}
-                    </pre>
+                    <div className="json-container">
+                      <button
+                        className="copy-json-button"
+                        onClick={() => handleCopyJson(test.id, detailedTest)}
+                        title="Copy JSON">
+                        {copiedTestId === test.id ? (
+                          <span className="copied-text">Đã copy</span>
+                        ) : (
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                          </svg>
+                        )}
+                      </button>
+                      <pre className="json-display">
+                        {JSON.stringify(detailedTest, null, 2)}
+                      </pre>
+                    </div>
                   )
                 )}
               </AccordionDetails>

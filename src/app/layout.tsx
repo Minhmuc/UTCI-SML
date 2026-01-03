@@ -1,21 +1,18 @@
 import type { Metadata } from "next";
-import { Roboto, Roboto_Mono } from "next/font/google";
 import { Provider } from "@/components/Provider";
 import "./globals.css";
+import localFont from "next/font/local";
 
-const roboto = Roboto({
-  subsets: ["latin", "vietnamese"],
-  variable: "--font-roboto",
-});
-
-const robotoMono = Roboto_Mono({
-  subsets: ["latin", "vietnamese"],
-  variable: "--font-roboto-mono",
+// Dùng font Minecraft.ttf từ thư mục public/fonts
+const minecraft = localFont({
+  src: "../../public/fonts/minecraft.ttf",
+  variable: "--font-minecraft",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Xem điểm LMS ICTU",
-  description: "Xem điểm các bài kiểm tra trắc nghiệm trên LMS ICTU",
+  title: "🎮 UTCI SML - Hệ Thống Hỗ Trợ Điểm Sinh Viên",
+  description: "LieMSdai - Hệ Thống Rất Con Người",
 };
 
 export default function RootLayout({
@@ -25,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${roboto.variable} ${robotoMono.variable}`}>
+      <body className={minecraft.variable}>
         <Provider>{children}</Provider>
       </body>
     </html>
