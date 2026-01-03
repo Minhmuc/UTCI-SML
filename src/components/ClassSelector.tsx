@@ -129,7 +129,7 @@ export default function ClassSelector({
       setSelectedSemester(null);
       setSelectedClassId(null);
     }
-  }, [allClasses, classId]);
+  }, [allClasses, classId, isSetClassFromHeaders]);
 
   useEffect(() => {
     setIsSetClassFromHeaders(false);

@@ -31,7 +31,7 @@ export default function Home() {
 
   return (
     <main className="main-container">
-      <h1 className="main-heading">"Game over man, game over!"</h1>
+      <h1 className="main-heading">&quot;Game over man, game over!&quot;</h1>
 
       {<HeaderInput onHeadersProcessed={handleHeadersProcessed} />}
 
