@@ -29,11 +29,17 @@ export default function Home() {
     setClassName(selectedClassName);
   };
 
+  const handleStartOver = () => {
+    window.location.reload();
+  };
+
   return (
     <main className="main-container">
       <h1 className="main-heading">&quot;Game over man, game over!&quot;</h1>
 
-      {<HeaderInput onHeadersProcessed={handleHeadersProcessed} />}
+      {!(headers && Object.keys(headers).length > 0 && studentId) && (
+        <HeaderInput onHeadersProcessed={handleHeadersProcessed} />
+      )}
 
       {headers && Object.keys(headers).length > 0 && studentId && (
         <>
@@ -49,6 +55,13 @@ export default function Home() {
             classId={classId}
             className={className}
           />
+
+          <button
+            onClick={handleStartOver}
+            className="button-primary start-over-button"
+          >
+            Start Over
+          </button>
         </>
       )}
     </main>

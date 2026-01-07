@@ -434,6 +434,19 @@ label {
   color: var(--discord-text) !important;
 }
 
+/* Start Over Button */
+.start-over-button {
+  margin-top: 2rem;
+  width: 100%;
+  max-width: 300px;
+  background-color: var(--discord-red);
+}
+
+.start-over-button:hover {
+  background-color: #c03537;
+  transform: translateY(-1px);
+}
+
 /* Responsive Adjustments */
 @media screen and (max-width: 768px) {
   .main-heading {
